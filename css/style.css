@@ -12,6 +12,129 @@
     --white: #ffffff;
 }
 
+/* =================================
+   POPUP AJOUT AU PANIER - TAMARSHOP
+================================= */
+
+#tamar-popup {
+    display: none;
+}
+
+#tamar-popup.active {
+    display: flex;
+    position: fixed;
+    inset: 0;
+    z-index: 99999;
+    align-items: center;
+    justify-content: center;
+}
+
+.popup-overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(35, 25, 18, 0.65);
+    backdrop-filter: blur(4px);
+}
+
+.popup-content {
+    position: relative;
+    z-index: 2;
+    background: #fffaf3;
+    width: 90%;
+    max-width: 420px;
+    padding: 40px 30px;
+    border-radius: 22px;
+    text-align: center;
+    box-shadow: 0 15px 50px rgba(0, 0, 0, 0.2);
+    animation: popupAppear 0.35s ease;
+}
+
+.popup-icon {
+    width: 75px;
+    height: 75px;
+    background: #e8f2df;
+    color: #54813c;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 38px;
+    font-weight: bold;
+    margin: 0 auto 20px;
+}
+
+.popup-content h3 {
+    color: #70452e;
+    font-size: 25px;
+    font-weight: 700;
+    margin-bottom: 12px;
+}
+
+.popup-content p {
+    color: #77685b;
+    font-size: 15px;
+    margin-bottom: 25px;
+}
+
+.popup-close {
+    position: absolute;
+    top: 12px;
+    right: 18px;
+    border: none;
+    background: none;
+    color: #70452e;
+    font-size: 28px;
+    cursor: pointer;
+}
+
+.popup-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.popup-cart-btn {
+    background: #70452e;
+    color: white;
+    text-decoration: none;
+    padding: 13px;
+    border-radius: 10px;
+    font-weight: 600;
+    transition: 0.3s;
+}
+
+.popup-cart-btn:hover {
+    background: #53321f;
+    color: white;
+}
+
+.popup-continue {
+    background: transparent;
+    border: 1px solid #d8c4ad;
+    color: #70452e;
+    padding: 12px;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.popup-continue:hover {
+    background: #f1e7da;
+}
+
+@keyframes popupAppear {
+    from {
+        opacity: 0;
+        transform: translateY(25px) scale(0.95);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+
 * {
     margin: 0;
     padding: 0;
