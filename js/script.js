@@ -1,5 +1,8 @@
 
+// ================================
 // NAVIGATION
+// ================================
+
 const navbar = `
 <nav class="navbar navbar-expand-lg navbar-dark sticky-top">
     <div class="container">
@@ -12,11 +15,21 @@ const navbar = `
 
         <div class="collapse navbar-collapse" id="menu">
             <ul class="navbar-nav ms-auto align-items-lg-center">
-                <li class="nav-item"><a class="nav-link" href="index.html">Accueil</a></li>
-                <li class="nav-item"><a class="nav-link" href="dattes.html">Nos dattes</a></li>
-                <li class="nav-item"><a class="nav-link" href="fruits-secs.html">Fruits secs</a></li>
-                <li class="nav-item"><a class="nav-link" href="coffrets.html">Coffrets</a></li>
-                <li class="nav-item"><a class="nav-link" href="apropos.html">À propos</a></li>
+                <li class="nav-item">
+                    <a class="nav-link" href="index.html">Accueil</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="dattes.html">Nos dattes</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="fruits-secs.html">Fruits secs</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="coffrets.html">Coffrets</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="apropos.html">À propos</a>
+                </li>
                 <li class="nav-item">
                     <a class="nav-link cart-link" href="panier.html">
                         🛒 Panier (<span id="cart-count">0</span>)
@@ -28,14 +41,21 @@ const navbar = `
 </nav>
 `;
 
+
+// ================================
+// FOOTER
+// ================================
+
 const footer = `
 <footer>
     <div class="container">
         <div class="row g-4">
+
             <div class="col-md-4">
                 <h4>TamarShop</h4>
                 <p>La qualité et le plaisir dans chaque sélection.</p>
             </div>
+
             <div class="col-md-4">
                 <h4>Navigation</h4>
                 <p><a href="index.html">Accueil</a></p>
@@ -43,13 +63,17 @@ const footer = `
                 <p><a href="fruits-secs.html">Nos fruits secs</a></p>
                 <p><a href="coffrets.html">Nos coffrets</a></p>
             </div>
+
             <div class="col-md-4">
                 <h4>Contact</h4>
                 <p>Maroc</p>
                 <p>Commandes disponibles par WhatsApp</p>
             </div>
+
         </div>
+
         <hr>
+
         <p class="text-center mb-0">
             © 2026 TamarShop - Tous droits réservés.
         </p>
@@ -57,7 +81,11 @@ const footer = `
 </footer>
 `;
 
+
+// ================================
 // INITIALISATION
+// ================================
+
 document.addEventListener("DOMContentLoaded", function () {
 
     document.getElementById("navbar").innerHTML = navbar;
@@ -71,7 +99,11 @@ document.addEventListener("DOMContentLoaded", function () {
 
 });
 
+
+// ================================
 // LIEN ACTIF
+// ================================
+
 function setActiveLink() {
 
     const currentPage = location.pathname.split("/").pop();
@@ -85,7 +117,11 @@ function setActiveLink() {
     });
 }
 
+
+// ================================
 // ANIMATIONS
+// ================================
+
 document.addEventListener("DOMContentLoaded", function () {
 
     const observer = new IntersectionObserver((entries) => {
@@ -123,7 +159,11 @@ document.addEventListener("DOMContentLoaded", function () {
 
 });
 
+
+// ================================
 // AFFICHER LES PRODUITS
+// ================================
+
 function displayProducts() {
 
     const container = document.getElementById("products-container");
@@ -142,60 +182,145 @@ function displayProducts() {
 
     container.innerHTML = selectedProducts.map(product => `
         <div class="col-lg-4 col-md-6 mb-4">
+
             <div class="card product-card">
+
                 <img src="${product.image}" alt="${product.name}"
                     onerror="this.src='https://placehold.co/600x400/F8F3EB/70452E?text=TamarShop'">
 
                 <div class="card-body">
+
                     <span class="badge badge-tamar mb-2">TamarShop</span>
+
                     <h5>${product.name}</h5>
+
                     <p class="text-muted">${product.description}</p>
 
                     <div class="d-flex justify-content-between align-items-center">
-                        <span class="product-price">${product.price} DH</span>
+
+                        <span class="product-price">
+                            ${product.price} DH
+                        </span>
+
                         <button class="btn btn-tamar"
                             onclick="addToCart(${product.id})">
                             Ajouter +
                         </button>
+
                     </div>
                 </div>
             </div>
         </div>
     `).join("");
+
 }
 
-// AFFICHER UNE NOTIFICATION
+
+// ================================
+// POPUP PERSONNALISÉE TAMARSHOP
+// ================================
+
 function showMessage(message, type) {
 
-    const box = document.getElementById("message-box");
+    let popup = document.getElementById("tamar-popup");
 
-    if (!box) return;
+    // Créer la popup
+    if (!popup) {
 
-    box.innerHTML = message;
-    box.className = `alert alert-${type} text-center mt-3`;
-    box.style.display = "block";
+        popup = document.createElement("div");
+        popup.id = "tamar-popup";
 
-    setTimeout(() => {
-        box.style.display = "none";
-    }, 3000);
+        popup.innerHTML = `
+            <div class="popup-overlay" onclick="closePopup()"></div>
+
+            <div class="popup-content">
+
+                <button class="popup-close" onclick="closePopup()">
+                    &times;
+                </button>
+
+                <div class="popup-icon">✓</div>
+
+                <h3>Bravo !</h3>
+
+                <p id="popup-message"></p>
+
+                <div class="popup-buttons">
+
+                    <a href="panier.html" class="popup-cart-btn">
+                        🛒 Voir mon panier
+                    </a>
+
+                    <button onclick="closePopup()" class="popup-continue">
+                        Continuer mes achats
+                    </button>
+
+                </div>
+
+            </div>
+        `;
+
+        document.body.appendChild(popup);
+    }
+
+    document.getElementById("popup-message").textContent = message;
+
+    popup.classList.add("active");
+
+    clearTimeout(window.popupTimer);
+
+    window.popupTimer = setTimeout(() => {
+        closePopup();
+    }, 4000);
+
 }
 
+
+// ================================
+// FERMER LA POPUP
+// ================================
+
+function closePopup() {
+
+    const popup = document.getElementById("tamar-popup");
+
+    if (popup) {
+        popup.classList.remove("active");
+    }
+
+    clearTimeout(window.popupTimer);
+
+}
+
+
+// ================================
 // RÉCUPÉRER LE PANIER
+// ================================
+
 function getCart() {
 
     return JSON.parse(localStorage.getItem("tamarCart")) || [];
 
 }
 
+
+// ================================
 // SAUVEGARDER LE PANIER
+// ================================
+
 function saveCart(cart) {
 
     localStorage.setItem("tamarCart", JSON.stringify(cart));
+
     updateCartCount();
 
 }
 
+
+// ================================
 // AJOUTER AU PANIER
+// ================================
+
 function addToCart(id) {
 
     let cart = getCart();
@@ -213,7 +338,10 @@ function addToCart(id) {
 
     } else {
 
-        cart.push({ id: id, quantity: 1 });
+        cart.push({
+            id: id,
+            quantity: 1
+        });
 
         showMessage(
             "Produit ajouté au panier avec succès !",
@@ -226,7 +354,11 @@ function addToCart(id) {
 
 }
 
+
+// ================================
 // COMPTER LES PRODUITS
+// ================================
+
 function updateCartCount() {
 
     const cart = getCart();
@@ -241,7 +373,11 @@ function updateCartCount() {
 
 }
 
+
+// ================================
 // AFFICHER LE PANIER
+// ================================
+
 function displayCart() {
 
     const container = document.getElementById("cart-container");
@@ -254,11 +390,15 @@ function displayCart() {
 
         container.innerHTML = `
             <div class="empty-cart">
+
                 <h3>🛒 Votre panier est vide</h3>
+
                 <p>Découvrez nos délicieux produits !</p>
+
                 <a href="dattes.html" class="btn btn-tamar">
                     Découvrir nos produits
                 </a>
+
             </div>
         `;
 
@@ -269,7 +409,9 @@ function displayCart() {
 
     container.innerHTML = `
         <div class="row g-4">
+
             <div class="col-lg-8">
+
                 <div class="cart-box">
 
                     ${cart.map(item => {
@@ -281,6 +423,7 @@ function displayCart() {
                         if (!product) return "";
 
                         const subtotal = product.price * item.quantity;
+
                         total += subtotal;
 
                         return `
@@ -289,19 +432,26 @@ function displayCart() {
                                 <img src="${product.image}" alt="${product.name}">
 
                                 <div class="flex-grow-1">
+
                                     <h6>${product.name}</h6>
+
                                     <span>${product.price} DH</span>
+
                                 </div>
 
                                 <div class="d-flex align-items-center gap-2">
 
                                     <button class="quantity-btn"
-                                        onclick="changeQuantity(${item.id}, -1)">-</button>
+                                        onclick="changeQuantity(${item.id}, -1)">
+                                        -
+                                    </button>
 
                                     <span>${item.quantity}</span>
 
                                     <button class="quantity-btn"
-                                        onclick="changeQuantity(${item.id}, 1)">+</button>
+                                        onclick="changeQuantity(${item.id}, 1)">
+                                        +
+                                    </button>
 
                                 </div>
 
@@ -319,17 +469,24 @@ function displayCart() {
             </div>
 
             <div class="col-lg-4">
+
                 <div class="cart-box">
 
                     <h4>Résumé de la commande</h4>
+
                     <hr>
 
                     <div class="d-flex justify-content-between">
+
                         <span>Total</span>
+
                         <strong>${total} DH</strong>
+
                     </div>
 
-                    <p class="text-muted mt-2">Livraison à confirmer.</p>
+                    <p class="text-muted mt-2">
+                        Livraison à confirmer.
+                    </p>
 
                     <a href="commander.html"
                         class="btn btn-tamar w-100 mt-3">
@@ -338,12 +495,17 @@ function displayCart() {
 
                 </div>
             </div>
+
         </div>
     `;
 
 }
 
+
+// ================================
 // MODIFIER QUANTITÉ
+// ================================
+
 function changeQuantity(id, amount) {
 
     let cart = getCart();
@@ -357,21 +519,31 @@ function changeQuantity(id, amount) {
     cart = cart.filter(item => item.quantity > 0);
 
     saveCart(cart);
+
     displayCart();
 
 }
 
+
+// ================================
 // SUPPRIMER UN PRODUIT
+// ================================
+
 function removeProduct(id) {
 
     let cart = getCart().filter(item => item.id !== id);
 
     saveCart(cart);
+
     displayCart();
 
 }
 
+
+// ================================
 // AFFICHER RÉSUMÉ COMMANDE
+// ================================
+
 function displayCheckout() {
 
     const summary = document.getElementById("checkout-summary");
@@ -386,6 +558,7 @@ function displayCheckout() {
 
         summary.innerHTML = `
             <p>Votre panier est vide.</p>
+
             <a href="dattes.html" class="btn btn-tamar">
                 Voir les produits
             </a>
@@ -401,26 +574,39 @@ function displayCheckout() {
         if (!product) return "";
 
         const subtotal = product.price * item.quantity;
+
         total += subtotal;
 
         return `
             <div class="d-flex justify-content-between mb-2">
+
                 <span>${product.name} x ${item.quantity}</span>
+
                 <strong>${subtotal} DH</strong>
+
             </div>
         `;
 
     }).join("") + `
+
         <hr>
+
         <div class="d-flex justify-content-between">
+
             <strong>Total</strong>
+
             <strong class="product-price">${total} DH</strong>
+
         </div>
     `;
 
 }
 
+
+// ================================
 // ENVOYER COMMANDE WHATSAPP
+// ================================
+
 function sendOrder(event) {
 
     event.preventDefault();
@@ -430,13 +616,16 @@ function sendOrder(event) {
     if (cart.length === 0) {
 
         alert("Votre panier est vide !");
-        return;
 
+        return;
     }
 
     const name = document.getElementById("customer-name").value.trim();
+
     const phone = document.getElementById("customer-phone").value.trim();
+
     const address = document.getElementById("customer-address").value.trim();
+
     const city = document.getElementById("customer-city").value.trim();
 
     let total = 0;
@@ -444,8 +633,11 @@ function sendOrder(event) {
     let message = `Bonjour TamarShop ! Je souhaite commander :\n\n`;
 
     message += `Nom : ${name}\n`;
+
     message += `Téléphone : ${phone}\n`;
+
     message += `Adresse : ${address}\n`;
+
     message += `Ville : ${city}\n\n`;
 
     cart.forEach(item => {
@@ -455,6 +647,7 @@ function sendOrder(event) {
         if (!product) return;
 
         const subtotal = product.price * item.quantity;
+
         total += subtotal;
 
         message += `- ${product.name} x ${item.quantity} = ${subtotal} DH\n`;
@@ -462,6 +655,7 @@ function sendOrder(event) {
     });
 
     message += `\nTotal : ${total} DH`;
+
     message += `\nMerci de confirmer ma commande.`;
 
     // NUMÉRO WHATSAPP DE LA BOUTIQUE
