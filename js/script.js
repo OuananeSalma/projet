@@ -220,77 +220,87 @@ function displayProducts() {
 // POPUP PERSONNALISÉE TAMARSHOP
 // ================================
 
+
 function showMessage(message, type) {
 
-    let popup = document.getElementById("tamar-popup");
+    // Supprimer une ancienne popup
+    const oldPopup = document.getElementById("tamar-lightbox");
 
-    // Créer la popup
-    if (!popup) {
+    if (oldPopup) {
+        oldPopup.remove();
+    }
 
-        popup = document.createElement("div");
-        popup.id = "tamar-popup";
+    // Créer la lightbox
+    const lightbox = document.createElement("div");
 
-        popup.innerHTML = `
-            <div class="popup-overlay" onclick="closePopup()"></div>
+    lightbox.id = "tamar-lightbox";
 
-            <div class="popup-content">
+    lightbox.innerHTML = `
+        <div class="lightbox-overlay" onclick="closePopup()"></div>
 
-                <button class="popup-close" onclick="closePopup()">
-                    &times;
+        <div class="lightbox-content">
+
+            <button class="lightbox-close" onclick="closePopup()">
+                &times;
+            </button>
+
+            <div class="lightbox-icon">
+                <span>✓</span>
+            </div>
+
+            <h2>Produit ajouté !</h2>
+
+            <p>${message}</p>
+
+            <div class="lightbox-actions">
+
+                <a href="panier.html" class="lightbox-cart">
+                    Voir mon panier
+                </a>
+
+                <button onclick="closePopup()" class="lightbox-continue">
+                    Continuer mes achats
                 </button>
 
-                <div class="popup-icon">✓</div>
-
-                <h3>Bravo !</h3>
-
-                <p id="popup-message"></p>
-
-                <div class="popup-buttons">
-
-                    <a href="panier.html" class="popup-cart-btn">
-                        🛒 Voir mon panier
-                    </a>
-
-                    <button onclick="closePopup()" class="popup-continue">
-                        Continuer mes achats
-                    </button>
-
-                </div>
-
             </div>
-        `;
 
-        document.body.appendChild(popup);
-    }
+        </div>
+    `;
 
-    document.getElementById("popup-message").textContent = message;
+    document.body.appendChild(lightbox);
 
-    popup.classList.add("active");
+    // Bloquer le défilement de la page
+    document.body.style.overflow = "hidden";
+
+    // Afficher avec animation
+    requestAnimationFrame(() => {
+        lightbox.classList.add("show");
+    });
 
     clearTimeout(window.popupTimer);
 
-    window.popupTimer = setTimeout(() => {
-        closePopup();
-    }, 4000);
-
+    window.popupTimer = setTimeout(closePopup, 5000);
 }
 
 
-// ================================
-// FERMER LA POPUP
-// ================================
-
+// FERMER LA LIGHTBOX
 function closePopup() {
 
-    const popup = document.getElementById("tamar-popup");
+    const lightbox = document.getElementById("tamar-lightbox");
 
-    if (popup) {
-        popup.classList.remove("active");
-    }
+    if (!lightbox) return;
+
+    lightbox.classList.remove("show");
+
+    document.body.style.overflow = "";
 
     clearTimeout(window.popupTimer);
 
+    setTimeout(() => {
+        lightbox.remove();
+    }, 300);
 }
+
 
 
 // ================================
