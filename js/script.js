@@ -1,3 +1,4 @@
+
 // NAVIGATION
 const navbar = `
 <nav class="navbar navbar-expand-lg navbar-dark sticky-top">
@@ -32,7 +33,7 @@ const footer = `
     <div class="container">
         <div class="row g-4">
             <div class="col-md-4">
-                <h4> TamarShop</h4>
+                <h4>TamarShop</h4>
                 <p>La qualité et le plaisir dans chaque sélection.</p>
             </div>
             <div class="col-md-4">
@@ -56,6 +57,7 @@ const footer = `
 </footer>
 `;
 
+// INITIALISATION
 document.addEventListener("DOMContentLoaded", function () {
 
     document.getElementById("navbar").innerHTML = navbar;
@@ -71,18 +73,21 @@ document.addEventListener("DOMContentLoaded", function () {
 
 // LIEN ACTIF
 function setActiveLink() {
+
     const currentPage = location.pathname.split("/").pop();
 
     document.querySelectorAll(".nav-link").forEach(link => {
+
         if (link.getAttribute("href") === currentPage) {
             link.classList.add("active");
         }
+
     });
 }
 
+// ANIMATIONS
 document.addEventListener("DOMContentLoaded", function () {
 
-    // Animation des éléments au défilement
     const observer = new IntersectionObserver((entries) => {
 
         entries.forEach((entry) => {
@@ -98,11 +103,10 @@ document.addEventListener("DOMContentLoaded", function () {
         threshold: 0.12
     });
 
-    document.querySelectorAll(".reveal").forEach((element) => {
+    document.querySelectorAll(".reveal").forEach(element => {
         observer.observe(element);
     });
 
-    // Animation de la navbar pendant le scroll
     const navbar = document.querySelector(".navbar");
 
     window.addEventListener("scroll", function () {
@@ -159,32 +163,38 @@ function displayProducts() {
         </div>
     `).join("");
 }
+
 // AFFICHER UNE NOTIFICATION
 function showMessage(message, type) {
 
     const box = document.getElementById("message-box");
 
+    if (!box) return;
+
     box.innerHTML = message;
     box.className = `alert alert-${type} text-center mt-3`;
-
     box.style.display = "block";
 
     setTimeout(() => {
         box.style.display = "none";
     }, 3000);
 }
+
 // RÉCUPÉRER LE PANIER
 function getCart() {
+
     return JSON.parse(localStorage.getItem("tamarCart")) || [];
+
 }
 
 // SAUVEGARDER LE PANIER
 function saveCart(cart) {
+
     localStorage.setItem("tamarCart", JSON.stringify(cart));
     updateCartCount();
+
 }
 
-// AJOUTER AU PANIER
 // AJOUTER AU PANIER
 function addToCart(id) {
 
@@ -193,14 +203,27 @@ function addToCart(id) {
     let existing = cart.find(item => item.id === id);
 
     if (existing) {
+
         existing.quantity++;
-        showMessage("Ce produit est déjà dans le panier. Quantité augmentée !", "warning");
+
+        showMessage(
+            "Ce produit est déjà dans le panier. Quantité augmentée !",
+            "warning"
+        );
+
     } else {
+
         cart.push({ id: id, quantity: 1 });
-        showMessage("Produit ajouté au panier avec succès !", "success");
+
+        showMessage(
+            "Produit ajouté au panier avec succès !",
+            "success"
+        );
+
     }
 
     saveCart(cart);
+
 }
 
 // COMPTER LES PRODUITS
@@ -215,6 +238,7 @@ function updateCartCount() {
     const element = document.getElementById("cart-count");
 
     if (element) element.textContent = count;
+
 }
 
 // AFFICHER LE PANIER
@@ -227,6 +251,7 @@ function displayCart() {
     let cart = getCart();
 
     if (cart.length === 0) {
+
         container.innerHTML = `
             <div class="empty-cart">
                 <h3>🛒 Votre panier est vide</h3>
@@ -236,6 +261,7 @@ function displayCart() {
                 </a>
             </div>
         `;
+
         return;
     }
 
@@ -245,6 +271,7 @@ function displayCart() {
         <div class="row g-4">
             <div class="col-lg-8">
                 <div class="cart-box">
+
                     ${cart.map(item => {
 
                         const product = products.find(
@@ -258,13 +285,16 @@ function displayCart() {
 
                         return `
                             <div class="cart-product d-flex align-items-center gap-3">
+
                                 <img src="${product.image}" alt="${product.name}">
+
                                 <div class="flex-grow-1">
                                     <h6>${product.name}</h6>
                                     <span>${product.price} DH</span>
                                 </div>
 
                                 <div class="d-flex align-items-center gap-2">
+
                                     <button class="quantity-btn"
                                         onclick="changeQuantity(${item.id}, -1)">-</button>
 
@@ -272,35 +302,45 @@ function displayCart() {
 
                                     <button class="quantity-btn"
                                         onclick="changeQuantity(${item.id}, 1)">+</button>
+
                                 </div>
 
                                 <button class="remove-btn"
                                     onclick="removeProduct(${item.id})">
                                     Supprimer
                                 </button>
+
                             </div>
                         `;
+
                     }).join("")}
+
                 </div>
             </div>
 
             <div class="col-lg-4">
                 <div class="cart-box">
+
                     <h4>Résumé de la commande</h4>
                     <hr>
+
                     <div class="d-flex justify-content-between">
                         <span>Total</span>
                         <strong>${total} DH</strong>
                     </div>
+
                     <p class="text-muted mt-2">Livraison à confirmer.</p>
+
                     <a href="commander.html"
                         class="btn btn-tamar w-100 mt-3">
                         Commander maintenant
                     </a>
+
                 </div>
             </div>
         </div>
     `;
+
 }
 
 // MODIFIER QUANTITÉ
@@ -318,6 +358,7 @@ function changeQuantity(id, amount) {
 
     saveCart(cart);
     displayCart();
+
 }
 
 // SUPPRIMER UN PRODUIT
@@ -327,6 +368,7 @@ function removeProduct(id) {
 
     saveCart(cart);
     displayCart();
+
 }
 
 // AFFICHER RÉSUMÉ COMMANDE
@@ -341,12 +383,14 @@ function displayCheckout() {
     let total = 0;
 
     if (cart.length === 0) {
+
         summary.innerHTML = `
             <p>Votre panier est vide.</p>
             <a href="dattes.html" class="btn btn-tamar">
                 Voir les produits
             </a>
         `;
+
         return;
     }
 
@@ -365,6 +409,7 @@ function displayCheckout() {
                 <strong>${subtotal} DH</strong>
             </div>
         `;
+
     }).join("") + `
         <hr>
         <div class="d-flex justify-content-between">
@@ -372,6 +417,7 @@ function displayCheckout() {
             <strong class="product-price">${total} DH</strong>
         </div>
     `;
+
 }
 
 // ENVOYER COMMANDE WHATSAPP
@@ -382,8 +428,10 @@ function sendOrder(event) {
     const cart = getCart();
 
     if (cart.length === 0) {
+
         alert("Votre panier est vide !");
         return;
+
     }
 
     const name = document.getElementById("customer-name").value.trim();
@@ -410,12 +458,13 @@ function sendOrder(event) {
         total += subtotal;
 
         message += `- ${product.name} x ${item.quantity} = ${subtotal} DH\n`;
+
     });
 
     message += `\nTotal : ${total} DH`;
     message += `\nMerci de confirmer ma commande.`;
 
-    // REMPLACER PAR LE NUMÉRO WHATSAPP DE LA BOUTIQUE
+    // NUMÉRO WHATSAPP DE LA BOUTIQUE
     const whatsappNumber = "212600000000";
 
     const url = "https://wa.me/" + whatsappNumber +
