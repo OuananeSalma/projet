@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TamarShop | Commander</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<div id="navbar"></div>
+
+<section class="page-banner">
+    <div class="container">
+        <h1>Finaliser ma commande</h1>
+        <p>Quelques informations pour recevoir votre commande.</p>
+    </div>
+</section>
+
+<section class="section">
+    <div class="container">
+
+        <div class="row g-4">
+
+            <div class="col-lg-7">
+                <div class="form-box">
+
+                    <h3 class="mb-4">Informations personnelles</h3>
+
+                    <form onsubmit="sendOrder(event)">
+
+                        <div class="mb-3">
+                            <label class="form-label">Nom complet</label>
+                            <input type="text" id="customer-name"
+                                   class="form-control" required>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Téléphone</label>
+                            <input type="tel" id="customer-phone"
+                                   class="form-control" required>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Ville</label>
+                            <input type="text" id="customer-city"
+                                   class="form-control" required>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Adresse complète</label>
+                            <textarea id="customer-address"
+                                      class="form-control"
+                                      rows="3" required></textarea>
+                        </div>
+
+                        <button type="submit" class="btn btn-tamar w-100">
+                            Confirmer via WhatsApp
+                        </button>
+
+                    </form>
+
+                </div>
+            </div>
+
+            <div class="col-lg-5">
+                <div class="cart-box">
+                    <h3 class="mb-4">Résumé de ma commande</h3>
+                    <div id="checkout-summary"></div>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+</section>
+
+<div id="footer"></div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="js/products.js"></script>
+<script src="js/script.js"></script>
+
+</body>
+</html>
